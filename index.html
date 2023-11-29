@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <title>Vue App</title>
   <script src="https://unpkg.com/vue@next"></script>
 </head>
-
 <body>
   <div id="app">
-    <button @click="count++">increment</button>
+    <button @click="increment">increment</button>
     count: {{count}}
   </div>
   <script>
@@ -17,11 +15,14 @@
         return {
           count: 0
         };
+      },
+      methods: {
+        increment() {
+            this.count++;
+        }
       }
     };
-
     Vue.createApp(Counter).mount("#app");
   </script>
 </body>
-
 </html>
