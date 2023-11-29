@@ -10,7 +10,7 @@
   <div id="app">
     <div>
       <ol>
-        <todo-item v-for="todo in todos" :todo="todo"> </todo-item>
+        <todo-item v-for="todo in todos" :todo="todo" :key="todo.id"> </todo-item>
       </ol>
     </div>
   </div>
@@ -19,9 +19,9 @@
       data() {
         return {
           todos: [
-            { description: "blood" },
-            { description: "sweat" },
-            { description: "tears" }
+            { id: 1, description: "blood" },
+            { id: 2, description: "sweat" },
+            { id: 3, description: "tears" }
           ]
         };
       }
