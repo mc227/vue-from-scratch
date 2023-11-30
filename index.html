@@ -1,28 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Vue App</title>
-  <script src="mark.js"></script>
+  <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    th:first-child, th:not(:first-child), tr:first-child td {
+      position: sticky;
+      top: 0;
+      background-color: #f2f2f2;
+      z-index: 2;
+    }
+
+    tr:not(:first-child) td:first-child {
+      position: sticky;
+      left: 0;
+      background-color: #f2f2f2;
+      z-index: 2;
+      font-weight: bold; /* Added rule to make text bold */
+    }
+
+    .no-highlight {
+      background-color: transparent;
+    }
+  </style>
 </head>
+
 <body>
   <div id="app">
-    <button @click="increment">increment</button>
-    count: {{count}}
+    <table>
+      <thead>
+        <tr>
+          <th>Time: 71269</th>
+          <th></th>
+          <th></th>
+          <th>(26) (MMC1) 639203</th>
+          <th>(25) (MMC2) 1708069</th>
+          <th>(24) (MMC3) 639202</th>
+          <th>(27) (MMC4) 1710918</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(row, index) in tableData" :key="index" :class="{ 'no-highlight': index === 0 }">
+          <td>{{ row[0] }}</td>
+          <td>{{ row[1] }}</td>
+          <td>{{ row[2] }}</td>
+          <td>{{ row[3] }}</td>
+          <td>{{ row[4] }}</td>
+          <td>{{ row[5] }}</td>
+          <td>{{ row[6] }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <script>
-    const Counter = {
+    const App = {
       data() {
         return {
-          count: 0
+          tableData: []
         };
       },
-      methods: {
-        increment() {
-            this.count++;
-        }
+      mounted() {
+        const csvData = `"",Latitute,Longitude,,,,
+          (26) (MMC1) 639203,"","","",0.4232354688006617 |117.91242185543953,"",""
+          (25) (MMC2) 1708069,40.0387311,-74.46014149,0.4232354688006617|117.91242185543953,"","", 0.434967149|117.1656176
+          (24) (MMC3) 639202,"","","",0.4003815237956223|128.83198602739307,"",""
+          (27) (MMC4) 1710918,"","","","",""`;
+
+        const rows = csvData.split('\n').map(row => row.split(',').map(cell => cell.trim()).filter(cell => cell !== ''));
+        this.tableData = rows;
       }
     };
-    Vue.createApp(Counter).mount("#app");
+
+    Vue.createApp(App).mount("#app");
   </script>
 </body>
+
 </html>
