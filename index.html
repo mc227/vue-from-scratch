@@ -3,7 +3,7 @@
 
 <head>
   <title>Vue App</title>
-  <script src="https://unpkg.com/vue@next"></script>
+  <script src="mark.js"></script>
   <style>
     table {
       border-collapse: collapse;
@@ -69,85 +69,54 @@
       </tbody>
     </table>
   </div>
-  <script>
+
+<script type="module">
+    // Import the data from data.js
+    import data from './data.js';
+  
     const App = {
       data() {
         return {
-          data: [
-            {
-              time: 71269,
-              "25_latitude": 40.038731,
-              "25_longitude": -74.460141,
-              "26_latitude": "",
-              "26_longitude": "",
-              "24_latitude": "",
-              "24_longitude": "",
-              "27_latitude": "",
-              "27_longitude": "",
-              "24_25_Distance": 0.400382,
-              "24_25_Pathloss": 128.831986,
-              "24_26_Distance": "",
-              "24_26_Pathloss": "",
-              "24_27_Distance": "",
-              "24_27_Pathloss": "",
-              "25_26_Distance": 0.423235,
-              "25_26_Pathloss": 117.912422,
-              "25_27_Distance": 0.434967,
-              "25_27_Pathloss": 117.165618,
-              "26_27_Distance": "",
-              "26_27_Pathloss": ""
-            },
-            {
-              time: 71272,
-              "25_latitude": 40.038731,
-              "25_longitude": -74.460141,
-              "26_latitude": 40.03783,
-              "26_longitude": -74.458323,
-              "24_latitude": "",
-              "24_longitude": "",
-              "27_latitude": "",
-              "27_longitude": "",
-              "24_25_Distance": 0.400382,
-              "24_25_Pathloss": 128.831986,
-              "24_26_Distance": 0.524697,
-              "24_26_Pathloss": 120.203544,	
-              "24_27_Distance": "",	
-              "24_27_Pathloss": "",	
-              "25_26_Distance": 0.19484,
-              "25_26_Pathloss": 85.717562,
-              "25_27_Distance": 0.434967,
-              "25_27_Pathloss": 117.165618,
-              "26_27_Distance": 0.566116,
-              "26_27_Pathloss": 117.823615
-            }
-          ],
+          data: [],
           currentDataIndex: 0,
           get currentData() {
-            return this.data[this.currentDataIndex];
+            // Ensure currentDataIndex is within bounds
+            if (this.data && this.data.length > 0 && this.currentDataIndex < this.data.length) {
+              return this.data[this.currentDataIndex];
+            }
+            return {};
           },
-          tableData: []
+          tableData: [],
         };
       },
       mounted() {
+        // Assign the imported data to the data property
+        this.data = data;
         this.updateTableData();
       },
       methods: {
         updateTableData() {
+          // Ensure currentData is defined before rendering
+          if (!this.currentData) {
+            return;
+          }
+  
           const rows = [
             ["", "Latitute", "Longitude", "", "", "", ""],
             ["(26) (MMC1) 639203", this.currentData["26_latitude"], this.currentData["26_longitude"], "", this.currentData["25_26_Distance"] + " | " + this.currentData["25_26_Pathloss"], this.currentData["24_26_Distance"] + "|" + this.currentData["24_26_Pathloss"], this.currentData["26_27_Distance"] + "|" + this.currentData["26_27_Pathloss"]],
             ["(25) (MMC2) 1708069", this.currentData["25_latitude"], this.currentData["25_longitude"], this.currentData["25_26_Distance"] + "|" + this.currentData["25_26_Pathloss"], "", this.currentData["24_25_Distance"] + "|" + this.currentData["24_25_Pathloss"], this.currentData["25_27_Distance"] + "|" + this.currentData["25_27_Pathloss"]],
             ["(24) (MMC3) 639202", this.currentData["24_latitude"], this.currentData["24_longitude"], this.currentData["24_26_Distance"] + "|" + this.currentData["24_26_Pathloss"], this.currentData["24_25_Distance"] + "|" + this.currentData["24_25_Pathloss"], "", this.currentData["24_27_Distance"] + " | " + this.currentData["24_27_Pathloss"]],
-            ["(27) (MMC4) 1710918", this.currentData["27_latitude"], this.currentData["27_longitude"], this.currentData["26_27_Distance"] + "|" + this.currentData["26_27_Pathloss"], this.currentData["25_27_Distance"] + "|" + this.currentData["25_27_Pathloss"], this.currentData["24_27_Distance"] + " | " + this.currentData["24_27_Pathloss"]]
+            ["(27) (MMC4) 1710918", this.currentData["27_latitude"], this.currentData["27_longitude"], this.currentData["26_27_Distance"] + "|" + this.currentData["26_27_Pathloss"], this.currentData["25_27_Distance"] + "|" + this.currentData["25_27_Pathloss"], this.currentData["24_27_Distance"] + " | " + this.currentData["24_27_Pathloss"]],
           ];
-
+  
           this.tableData = rows;
-        }
-      }
+        },
+      },
     };
-
+  
     Vue.createApp(App).mount("#app");
   </script>
+  
 </body>
 
 </html>
